@@ -92,236 +92,236 @@ check(8, "order: усі символи # і @", () => {
 
 // 9. tweet: усі знаки оклику одним шматком
 check(9, "tweet: усі знаки оклику одним шматком", () => {
-    return tweet.match(/___/);
+    return tweet.match(/!+/);
 }, ["!!!"]);
 
 // 10. Слова рівно з 3 літер у 'cat dog fish bird ant'
 check(10, "Слова рівно з 3 літер у 'cat dog fish bird ant'", () => {
-    return 'cat dog fish bird ant'.match(/___/);
+    return 'cat dog fish bird ant'.match(/\b[a-z]{3}\b/g);
 }, ["cat","dog","ant"]);
 
 // 11. code: ключові слова const, let, var
 check(11, "code: ключові слова const, let, var", () => {
-    return code.match(/___/);
+    return code.match(/const|let|var/g);
 }, ["const","let","var"]);
 
 // 12. code: усі символи = (окремо)
 check(12, "code: усі символи = (окремо)", () => {
-    return code.match(/___/);
+    return code.match(/=/g);
 }, ["=","=","="]);
 
 // 13. csv: перший рядок (заголовок)
 check(13, "csv: перший рядок (заголовок)", () => {
-    return csv.match(/___/)?.[0];
+    return csv.match(/.+/)[0];
 }, "name;age;city");
 
 // 14. Усі цифри по одній з 'a1b22c333'
 check(14, "Усі цифри по одній з 'a1b22c333'", () => {
-    return 'a1b22c333'.match(/___/);
+    return 'a1b22c333'.match(/\d/g);
 }, ["1","2","2","3","3","3"]);
 
 // 15. Усі літери по одній з 'a1b22c333'
 check(15, "Усі літери по одній з 'a1b22c333'", () => {
-    return 'a1b22c333'.match(/___/);
+    return 'a1b22c333'.match(/\D/g);
 }, ["a","b","c"]);
 
 // 16. Слово world у будь-якому регістрі з 'Hello WoRLD'
 check(16, "Слово world у будь-якому регістрі з 'Hello WoRLD'", () => {
-    return 'Hello WoRLD'.match(/___/)?.[0];
+    return 'Hello WoRLD'.match(/world/i)?.[0];
 }, "WoRLD");
 
 // ================= РІВЕНЬ 2 — класи [], квантифікатори {} + * ? =================
 
 // 17. order: дата РРРР-ММ-ДД
 check(17, "order: дата РРРР-ММ-ДД", () => {
-    return order.match(/___/)?.[0];
+    return order.match(/\b\d{4}[\d-]+(?=\s)/)?.[0];
 }, "2026-03-15");
 
 // 18. order: дата ДД.ММ.РРРР
 check(18, "order: дата ДД.ММ.РРРР", () => {
-    return order.match(/___/)?.[0];
+    return order.match(/\b\d{2}\.[\d.]+(?=\.)/)?.[0];
 }, "31.03.2026");
 
 // 19. order: сума з копійками
 check(19, "order: сума з копійками", () => {
-    return order.match(/___/)?.[0];
+    return order.match(/\d+\.\d+/)?.[0];
 }, "1249.99");
 
 // 20. order: трек-номер (2 великі + 9 цифр + 2 великі)
 check(20, "order: трек-номер (2 великі + 9 цифр + 2 великі)", () => {
-    return order.match(/___/)?.[0];
+    return order.match(/[A-Z]{2}\d{9}[A-Z]{2}/)?.[0];
 }, "PL123456789PL");
 
 // 21. order: промокод (великі літери + цифри)
 check(21, "order: промокод (великі літери + цифри)", () => {
-    return order.match(/___/)?.[0];
+    return order.match(/\b[A-Z]+\d+\b/)?.[0];
 }, "WINTER25");
 
 // 22. order: телефон +48 XXX XXX XXX
 check(22, "order: телефон +48 XXX XXX XXX", () => {
-    return order.match(/___/)?.[0];
+    return order.match(/\+[\d\s]+/)?.[0];
 }, "+48 512 345 678");
 
 // 23. order: email
 check(23, "order: email", () => {
-    return order.match(/___/)?.[0];
+    return order.match(/[a-z.]+@[a-z.]+/)?.[0];
 }, "jan.kowalski@firma.pl");
 
 // 24. log: усі часи ГГ:ХХ:СС
 check(24, "log: усі часи ГГ:ХХ:СС", () => {
-    return log.match(/___/);
+    return log.match(/[\d:]{8}/g);
 }, ["08:15:32","08:17:01","09:02:45","09:30:12","10:11:59"]);
 
 // 25. log: IP-адреса
 check(25, "log: IP-адреса", () => {
-    return log.match(/___/)?.[0];
+    return log.match(/\d{3}\.[\d.]+/)?.[0];
 }, "192.168.0.15");
 
 // 26. log: усі рівні логів
 check(26, "log: усі рівні логів", () => {
-    return log.match(/___/);
+    return log.match(/[A-Z]{4,5}/g);
 }, ["INFO","ERROR","WARN","INFO","ERROR"]);
 
 // 27. log: шлях API (починається з /api)
 check(27, "log: шлях API (починається з /api)", () => {
-    return log.match(/___/)?.[0];
+    return log.match(/\/[\w/]+/)?.[0];
 }, "/api/v2/orders");
 
 // 28. log: усі числа з 3+ цифр
 check(28, "log: усі числа з 3+ цифр", () => {
-    return log.match(/___/);
+    return log.match(/\d{3,}/g);
 }, ["2026","192","168","2026","1024","502","2026","2026","2026","3000"]);
 
 // 29. code: snake_case слова
 check(29, "code: snake_case слова", () => {
-    return code.match(/___/);
+    return code.match(/[a-z]+_[a-z]+/);
 }, ["total_sum"]);
 
 // 30. code: camelCase слова
 check(30, "code: camelCase слова", () => {
-    return code.match(/___/);
+    return code.match(/\b[a-z]+[A-Z][a-zA-Z]+\b/g);
 }, ["userName","getUser","isReady","calcTax"]);
 
 // 31. code: десяткові числа
 check(31, "code: десяткові числа", () => {
-    return code.match(/___/);
+    return code.match(/\d\.\d+/);
 }, ["0.23"]);
 
 // 32. code: усі дужки ( ) { }
 check(32, "code: усі дужки ( ) { }", () => {
-    return code.match(/___/);
+    return code.match(/[()]|[{}]/g);
 }, ["(",")","(",")","{","}"]);
 
 // 33. prices: доларові ціни разом із $
 check(33, "prices: доларові ціни разом із $", () => {
-    return prices.match(/___/);
+    return prices.match(/\$\d+\.\d+/g);
 }, ["$3.50","$1299.00"]);
 
 // 34. prices: усі ціни з копійками (через . або ,)
 check(34, "prices: усі ціни з копійками (через . або ,)", () => {
-    return prices.match(/___/);
+    return prices.match(/\d+([,.]\d+)/g);
 }, ["3.50","7,50","1299.00"]);
 
 // 35. prices: валютні символи $ і €
 check(35, "prices: валютні символи $ і €", () => {
-    return prices.match(/___/);
+    return prices.match(/[$€]/g);
 }, ["$","€","$"]);
 
 // 36. ua: українські слова
 check(36, "ua: українські слова", () => {
-    return ua.match(/___/);
+    return ua.match(/[а-яіїєґ’]+/ig);
 }, ["Привіт","Максиме","Їжак","з’їв","яблука","у","Львові","о","пароль"]);
 
 // 37. ua: слова з великої кириличної літери
 check(37, "ua: слова з великої кириличної літери", () => {
-    return ua.match(/___/);
+    return ua.match(/[А-ЯІЇЄҐ][а-яіїєґ’]+/g);
 }, ["Привіт","Максиме","Їжак","Львові"]);
 
 // 38. ua: латинські слова (можуть мати цифри і дефіс)
 check(38, "ua: латинські слова (можуть мати цифри і дефіс)", () => {
-    return ua.match(/___/);
+    return ua.match(/[A-Z][\w-]+/g);
 }, ["Wi-Fi","Kyiv2026"]);
 
 // 39. ua: час
 check(39, "ua: час", () => {
-    return ua.match(/___/)?.[0];
+    return ua.match(/\d{2}:\d{2}/)?.[0];
 }, "14:30");
 
 // 40. html: усі назви тегів, що відкриваються (div, a, img…)
 check(40, "html: усі назви тегів, що відкриваються (div, a, img…)", () => {
-    return html.match(/___/);
+    return html.match(/(?<=<)[a-z]+/g);
 }, ["div","a","img","a"]);
 
 // ================= РІВЕНЬ 3 — lookahead / lookbehind =================
 
 // 41. order: домен email без @
 check(41, "order: домен email без @", () => {
-    return order.match(/___/)?.[0];
+    return order.match(/(?<=@)[a-z.]+\.[a-z]{2,12}/)?.[0];
 }, "firma.pl");
 
 // 42. order: ім'я в email (до @)
 check(42, "order: ім'я в email (до @)", () => {
-    return order.match(/___/)?.[0];
+    return order.match(/[a-z.]+(?=@)/)?.[0];
 }, "jan.kowalski");
 
 // 43. order: число після #A-
 check(43, "order: число після #A-", () => {
-    return order.match(/___/)?.[0];
+    return order.match(/\d+/)?.[0];
 }, "1024");
 
 // 44. order: сума перед " zł"
 check(44, "order: сума перед \" zł\"", () => {
-    return order.match(/___/)?.[0];
+    return order.match(/\d+\.\d{2}/)?.[0];
 }, "1249.99");
 
 // 45. order: текст після "Promo: " до коми
 check(45, "order: текст після \"Promo: \" до коми", () => {
-    return order.match(/___/)?.[0];
+    return order.match(/\b[A-Z]+\d+\b/)?.[0];
 }, "WINTER25");
 
 // 46. prices: доларові ціни без $
 check(46, "prices: доларові ціни без $", () => {
-    return prices.match(/___/);
+    return prices.match(/(?<=\$)\d+\.\d+/g);
 }, ["3.50","1299.00"]);
 
 // 47. prices: числа перед " zł" або " UAH"
 check(47, "prices: числа перед \" zł\" або \" UAH\"", () => {
-    return prices.match(/___/);
+    return prices.match(/[\d,]+(?= (zł|UAH))/g);
 }, ["7,50","250"]);
 
 // 48. prices: назви товарів (слово перед пробілом і ціною/символом)
 check(48, "prices: назви товарів (слово перед пробілом і ціною/символом)", () => {
-    return prices.match(/___/);
+    return prices.match(/[A-Z][a-z]+/g);
 }, ["Coffee","Cake","Tea","Laptop","Book","Free"]);
 
 // 49. log: тексти ERROR-повідомлень
 check(49, "log: тексти ERROR-повідомлень", () => {
-    return log.match(/___/);
+    return log.match(/(?<=ERROR\s).+/g);
 }, ["Payment failed for order #A-1024 (code 502)","Timeout after 3000ms on /api/v2/orders"]);
 
 // 50. log: номери користувачів
 check(50, "log: номери користувачів", () => {
-    return log.match(/___/);
+    return log.match(/(?<=User\s)\d+/g);
 }, ["42","7"]);
 
 // 51. log: число перед %
 check(51, "log: число перед %", () => {
-    return log.match(/___/)?.[0];
+    return log.match(/\d+(?=%)/)?.[0];
 }, "91");
 
 // 52. log: код помилки в дужках (без "code ")
 check(52, "log: код помилки в дужках (без \"code \")", () => {
-    return log.match(/___/)?.[0];
+    return log.match(/(?<=code\s)\d+/)?.[0];
 }, "502");
 
 // 53. html: усі href без лапок
 check(53, "html: усі href без лапок", () => {
-    return html.match(/___/);
+    return html.match(/(?<=href=")[\w:/.?=&]+(?=")/g);
 }, ["https://shop.pl/item?id=15&color=red","/about"]);
 
 // 54. html: id
 check(54, "html: id", () => {
-    return html.match(/___/)?.[0];
+    return html.match(/(?<=id=")[a-z]+/)?.[0];
 }, "main");
 
 // 55. html: текст у <a>
@@ -346,7 +346,7 @@ check(58, "tweet: нікнейми без @", () => {
 
 // 59. tweet: усі посилання http/https
 check(59, "tweet: усі посилання http/https", () => {
-    return tweet.match(/___/);
+    return tweet.match(/https?:\/\/[\w./]+/g);
 }, ["https://t.co/xyz123","http://bit.ly/abc"]);
 
 // 60. code: назви функцій (слово перед "(")
