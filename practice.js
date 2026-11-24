@@ -326,22 +326,22 @@ check(54, "html: id", () => {
 
 // 55. html: текст у <a>
 check(55, "html: текст у <a>", () => {
-    return html.match(/___/);
+    return html.match(/(?<=>)[\w\s]+(?=<\/a>)/g);
 }, ["Buy now","About"]);
 
 // 56. html: значення alt
 check(56, "html: значення alt", () => {
-    return html.match(/___/)?.[0];
+    return html.match(/(?<=alt=")[\w]+(?=")/)?.[0];
 }, "Cat");
 
 // 57. tweet: хештеги без #
 check(57, "tweet: хештеги без #", () => {
-    return tweet.match(/___/);
+    return tweet.match(/(?<=#)[\w_]+/g);
 }, ["JavaScript","regex"]);
 
 // 58. tweet: нікнейми без @
 check(58, "tweet: нікнейми без @", () => {
-    return tweet.match(/___/);
+    return tweet.match(/(?<=@)[\w_.]+/g);
 }, ["maks_dev","anna.k"]);
 
 // 59. tweet: усі посилання http/https
